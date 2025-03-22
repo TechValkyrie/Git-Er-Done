@@ -2,42 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - FundGuard</title>
+  <link rel="stylesheet" href="home.css" />
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-  <div class="max-w-4xl mx-auto px-6 py-16">
-    <h1 class="text-4xl font-bold text-center mb-6">About Us</h1>
-    
-    <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-2">Our Mission</h2>
-      <p class="text-lg leading-relaxed">
-        We believe every American deserves financial security and peace of mind. 
-        Our mission is to make saving simple, empowering individuals and families 
-        to build strong emergency funds that protect their well-being in uncertain times. 
-        Whether it’s an unexpected medical bill, job loss, or car repair—having a safety net 
-        can change everything. We're here to help make that a reality.
-      </p>
-    </section>
+<body>
 
-    <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-2">Why We Built This</h2>
-      <p class="text-lg leading-relaxed">
-        Too many Americans live paycheck to paycheck, and saving often feels out of reach.
-        We built this platform during a Hackathon to tackle that problem head-on. 
-        By making saving intuitive, goal-driven, and accessible, we hope to inspire better habits 
-        and long-term security—one emergency fund at a time.
-      </p>
-    </section>
+  <!-- Header Section -->
+  <header>
+    <h1>FundGuard</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="question.html">Questionnaire</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section>
-      <h2 class="text-2xl font-semibold mb-2">The Team</h2>
-      <p class="text-lg leading-relaxed">
-        We're a group of passionate students, designers, and developers who want to make a difference.
-        This is just the beginning—we're learning, building, and growing together.
-      </p>
-    </section>
-  </div>
+  <!-- About Us Content -->
+  <section class="did-you-know">
+    <h2>About Us</h2>
+    <div class="bubble-container">
+      <div class="bubble-item left">
+        <div class="bubble">
+          💡 <strong>Our Mission:</strong> We believe every American deserves financial peace of mind. Our mission is to empower individuals and families to build strong emergency funds that support their well-being in times of need.
+        </div>
+        <img src="mission.jpg" alt="Helping Hands" class="bubble-img">
+      </div>
+
+      <div class="bubble-item right">
+        <div class="bubble">
+          🚀 This tool was built during a Hackathon with one goal in mind: to help people take the first step toward financial security—starting with just $10 a week.
+        </div>
+        <img src="hackathon.jpg" alt="Team Working Together" class="bubble-img">
+      </div>
+
+      <div class="bubble-item left">
+        <div class="bubble">
+          👥 We’re a team of students and developers who care about making a real difference. This is just the beginning.
+        </div>
+        <img src="team.jpg" alt="Team Photo" class="bubble-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- Call-to-Action -->
+  <section class="cta">
+    <p>Ready to start building your emergency fund?</p>
+    <a href="question.html" class="cta-button">Take the Questionnaire</a>
+  </section>
+
 </body>
 </html>
