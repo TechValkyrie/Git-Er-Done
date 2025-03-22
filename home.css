@@ -27,7 +27,7 @@ header h1 {
 }
 
 .logo-img {
-    width: 10px; 
+    width: auto; 
     height: 10px;
     margin-left: 10px; 
 }
