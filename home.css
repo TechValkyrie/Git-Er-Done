@@ -26,6 +26,12 @@ header h1 {
     font-size: 24px;
 }
 
+.logo-img {
+    width: auto; 
+    height: 10px;
+    margin-left: 10px; 
+}
+
 nav ul {
     width: 100%;
     list-style: none;
