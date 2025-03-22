@@ -29,8 +29,8 @@ header h1 {
 }
 
 .logo-img {
-    width: auto; 
-    height: 24px;
+    width: auto !important; 
+    height: 24px !important;
     margin-left: 10px; 
 }
 
