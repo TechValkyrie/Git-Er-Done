@@ -16,10 +16,10 @@ function calculateEmergencyFund() {
     let emergencyFundNeeded = totalMonthlyExpenses * duration;
     let monthlySavingsRequired = emergencyFundNeeded / investment_time;
 
-    // Check if expenses exceed income
+    // Check if expenses exceed or match income
     let message = "";
-    if (totalMonthlyExpenses > income) {
-        message = `<p style="color: red; font-weight: bold;">⚠️ Your expenses exceed your income! You need to get a higher-paying job.</p>`;
+    if (totalMonthlyExpenses >= income) {
+        message = `<p style="color: red; font-weight: bold;">⚠️ Your expenses exceed or match your income! You need to find a better-paying job or reduce your spending.</p>`;
     }
 
     document.getElementById("summary-text").innerHTML = `
