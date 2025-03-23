@@ -252,6 +252,17 @@
       const emergencyFundNeeded = totalMonthlyExpenses * duration;
       const monthlySavingsRequired = emergencyFundNeeded / investment_time;
 
+      let message = "";
+      if (totalMonthlyExpenses >= income) {
+        message = `<p style="color: red; font-weight: bold;">⚠️ Your expenses exceed or match your income!</p>`;
+      }
+
+      document.getElementById("summary-text").innerHTML = `
+        Your total monthly expenses are <b>$${totalMonthlyExpenses.toFixed(2)}</b>.<br>
+        You should save at least <b>$${emergencyFundNeeded.toFixed(2)}</b> for emergencies over <b>${investment_time}</b> months.<br>
+        To reach this goal, save <b>$${monthlySavingsRequired.toFixed(2)}</b> per month.<br>
+        ${message}
+
       renderChart(rent, food, transport, other, income);
     }
 
