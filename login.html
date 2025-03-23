@@ -135,8 +135,6 @@
             case "auth/invalid-email":
               msg.textContent = "❌ Please enter a valid email address.";
               break;
-            default:
-              msg.textContent = "❌ " + err.message;
           }
         })
         .finally(() => {
