@@ -102,6 +102,7 @@
             <button type="button" id="next">Next</button>
         </form>
     </div>
+
     <script>
         let currentStep = 0;
         const steps = document.querySelectorAll(".form-step");
@@ -120,6 +121,20 @@
 
         nextBtn.addEventListener("click", () => {
             if (currentStep === steps.length - 2) {
+                // Perform income check before moving to summary
+                let rent = parseFloat(document.getElementById("rent").value) || 0;
+                let food = parseFloat(document.getElementById("food").value) || 0;
+                let transport = parseFloat(document.getElementById("transport").value) || 0;
+                let other = parseFloat(document.getElementById("other").value) || 0;
+                let income = parseFloat(document.getElementById("income").value) || 0;
+                let totalExpenses = rent + food + transport + other;
+
+                if (income < totalExpenses) {
+                    alert("Your income is less than your total expenses. Please enter a higher income.");
+                    return;
+                }
+
+                // If income is valid, calculate emergency fund and move to summary
                 calculateEmergencyFund();
                 currentStep++;
             } else if (currentStep < steps.length - 1) {
@@ -139,7 +154,7 @@
             let transport = parseFloat(document.getElementById("transport").value) || 0;
             let other = parseFloat(document.getElementById("other").value) || 0;
             let income = parseFloat(document.getElementById("income").value) || 0;
-            let investment_time = parseInt(document.getElementById("investment_time").value) || 6;
+            let investment_time = parseInt(document.getElementById("investment_time").value) || 12;
 
             let totalMonthlyExpenses = rent + food + transport + other;
             let emergencyFundNeeded = totalMonthlyExpenses * 3;
@@ -168,6 +183,21 @@
             `;
             
             renderChart(rent, food, transport, other, income);
+        }
+
+        function renderChart(rent, food, transport, other, income) {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
+                    datasets: [{
+                        label: 'Monthly Breakdown',
+                        data: [rent, food, transport, other, income],
+                        backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
+                    }]
+                }
+            });
         }
 
         updateForm();
