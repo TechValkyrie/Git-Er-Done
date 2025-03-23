@@ -47,6 +47,36 @@
             max-width: 100%;
             margin-top: 20px;
         }
+        /* Saving Tips Section (Only on Summary Page) */
+        .saving-tips {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            display: none; /* Hidden by default */
+        }
+        .saving-tips h2 {
+            font-size: 24px;
+            color: #ff6b6b;
+        }
+        .tip-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .tip-item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-left: 15px;
+        }
+        .tip-item .tip {
+            max-width: 80%;
+            font-size: 18px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +123,34 @@
                 <h2>Summary</h2>
                 <p id="summary-text"></p>
                 <canvas id="expenseChart"></canvas>
+                <!-- Saving Tips Section (Visible only on the Summary Page) -->
+                <div class="saving-tips" id="saving-tips">
+                    <h2>Helpful Tips for Saving Money</h2>
+                    <div class="tip-item">
+                        <div class="tip">🍏 Buy groceries in bulk and cook meals at home to save money on food.</div>
+                        <img src="grocery.jpg" alt="Grocery Tip">
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip">💵 Put a portion of your income aside every paycheck, even if it’s a small amount.</div>
+                        <img src="paycheck.jpg" alt="Paycheck Tip">
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip">📱 Use budgeting apps to track your spending and identify where you can cut costs.</div>
+                        <img src="budgeting.jpg" alt="Budgeting Tip">
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip">🚶‍♀️ Use public transportation or carpool to reduce your transportation expenses.</div>
+                        <img src="transportation.jpg" alt="Transportation Tip">
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip">🏠 Consider downsizing your living space or negotiating your rent to lower housing costs.</div>
+                        <img src="housing.jpg" alt="Housing Tip">
+                    </div>
+                    <div class="tip-item">
+                        <div class="tip">🎉 Set specific savings goals and reward yourself when you reach them to stay motivated.</div>
+                        <img src="reward.jpg" alt="Reward Tip">
+                    </div>
+                </div>
             </div>
             <button type="button" id="prev" style="display: none;">Previous</button>
             <button type="button" id="next">Next</button>
@@ -105,6 +163,7 @@
         const nextBtn = document.getElementById("next");
         const prevBtn = document.getElementById("prev");
         const progress = document.getElementById("progress");
+        const savingTips = document.getElementById("saving-tips"); // Saving tips section reference
 
         function updateForm() {
             steps.forEach((step, index) => {
@@ -113,6 +172,13 @@
             prevBtn.style.display = currentStep > 0 ? "inline-block" : "none";
             nextBtn.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
             progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+
+            // Show saving tips only on the summary page
+            if (currentStep === steps.length - 1) {
+                savingTips.style.display = "block"; // Show tips on summary page
+            } else {
+                savingTips.style.display = "none"; // Hide tips on other pages
+            }
         }
 
         nextBtn.addEventListener("click", () => {
@@ -135,8 +201,11 @@
             let food = parseFloat(document.getElementById("food").value) || 0;
             let transport = parseFloat(document.getElementById("transport").value) || 0;
             let other = parseFloat(document.getElementById("other").value) || 0;
+
+
             let incomeValue = document.getElementById("income").value.trim();
             let income = incomeValue !== "" ? parseFloat(incomeValue) : 0;
+
             let investment_time = parseInt(document.getElementById("investment_time").value) || 6;
 
             let jobStability = document.getElementById("job-stability").value;
@@ -145,9 +214,13 @@
             // Set duration based on job stability and dependents
             let duration = (jobStability === "weak" || dependents === "yes") ? 6 : 3;
 
+
+
             let totalMonthlyExpenses = rent + food + transport + other;
             let emergencyFundNeeded = totalMonthlyExpenses * duration;
             let monthlySavingsRequired = emergencyFundNeeded / investment_time;
+
+
 
             // Check if expenses exceed or match income
             let message = "";
@@ -161,6 +234,7 @@
                 To reach this goal, save <b>$${monthlySavingsRequired.toFixed(2)}</b> per month.<br>
                 ${message}
             `;
+
 
             renderChart(rent, food, transport, other, income);
         }
