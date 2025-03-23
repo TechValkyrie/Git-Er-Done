@@ -35,8 +35,6 @@
         button {
             padding: 10px;
             margin: 10px;
-            stroke: black;
-            stroke-width: 2%;
             background-color: #ff6b6b;
             color: white;
             border: none;
@@ -46,6 +44,11 @@
         canvas {
             max-width: 100%;
             margin-top: 20px;
+        }
+        .tips {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -93,6 +96,7 @@
                 <h2>Summary</h2>
                 <p id="summary-text"></p>
                 <canvas id="expenseChart"></canvas>
+                <div class="tips" id="saving-tips"></div>
             </div>
             <button type="button" id="prev" style="display: none;">Previous</button>
             <button type="button" id="next">Next</button>
@@ -130,45 +134,40 @@
         });
 
         function calculateEmergencyFund() {
-    let rent = parseFloat(document.getElementById("rent").value) || 0;
-    let food = parseFloat(document.getElementById("food").value) || 0;
-    let transport = parseFloat(document.getElementById("transport").value) || 0;
-    let other = parseFloat(document.getElementById("other").value) || 0;
-    let income = parseFloat(document.getElementById("income").value) || 0;
-    let investment_time = parseInt(document.getElementById("investment_time").value) || 6;
+            let rent = parseFloat(document.getElementById("rent").value) || 0;
+            let food = parseFloat(document.getElementById("food").value) || 0;
+            let transport = parseFloat(document.getElementById("transport").value) || 0;
+            let other = parseFloat(document.getElementById("other").value) || 0;
+            let income = parseFloat(document.getElementById("income").value) || 0;
+            let investment_time = parseInt(document.getElementById("investment_time").value) || 6;
 
-    let jobStability = document.getElementById("job-stability").value;
-    let dependents = document.getElementById("dependents").value;
+            let totalMonthlyExpenses = rent + food + transport + other;
+            let emergencyFundNeeded = totalMonthlyExpenses * 3;
+            let monthlySavingsRequired = emergencyFundNeeded / investment_time;
 
-    // Set duration based on job stability and dependents
-    let duration = (jobStability === "weak" || dependents === "yes") ? 6 : 3;
-
-    let totalMonthlyExpenses = rent + food + transport + other;
-    let emergencyFundNeeded = totalMonthlyExpenses * duration;
-    let monthlySavingsRequired = emergencyFundNeeded / investment_time;
-
-    document.getElementById("summary-text").innerHTML = `
-        Your total monthly expenses are <b>$${totalMonthlyExpenses.toFixed(2)}</b>.<br>
-        You should save at least <b>$${emergencyFundNeeded.toFixed(2)}</b> for emergencies over <b>${investment_time}</b> months.<br>
-        To reach this goal, save <b>$${monthlySavingsRequired.toFixed(2)}</b> per month.
-    `;
-
-    renderChart(rent, food, transport, other, income);
-}
-
-        function renderChart(rent, food, transport, other, income) {
-            const ctx = document.getElementById('expenseChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
-                    datasets: [{
-                        label: 'Monthly Breakdown',
-                        data: [rent, food, transport, other, income],
-                        backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
-                    }]
-                }
-            });
+            document.getElementById("summary-text").innerHTML = `
+                Your total monthly expenses are <b>$${totalMonthlyExpenses.toFixed(2)}</b>.<br>
+                You should save at least <b>$${emergencyFundNeeded.toFixed(2)}</b> for emergencies over <b>${investment_time}</b> months.<br>
+                To reach this goal, save <b>$${monthlySavingsRequired.toFixed(2)}</b> per month.
+            `;
+            
+            document.getElementById("saving-tips").innerHTML = `
+                <h3>Money-Saving Tips:</h3>
+                <ul>
+                    <li>Track your expenses to identify unnecessary spending.</li>
+                    <li>Set up automatic transfers to your savings account.</li>
+                    <li>Cut down on dining out and prepare meals at home.</li>
+                    <li>Use public transportation or carpool to save on gas.</li>
+                    <li>Cancel unused subscriptions and memberships.</li>
+                    <li>Buy in bulk for household essentials to save money.</li>
+                    <li>Look for discounts, coupons, and cashback deals.</li>
+                    <li>Consider taking on a side gig for extra income.</li>
+                    <li>Review and renegotiate bills like insurance and phone plans.</li>
+                    <li>Use a budget planner to stay on track with your financial goals.</li>
+                </ul>
+            `;
+            
+            renderChart(rent, food, transport, other, income);
         }
 
         updateForm();
