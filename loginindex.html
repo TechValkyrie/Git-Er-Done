@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Emergency Fund Generator</title>
+  <title>Login - FundGuard</title>
   <link rel="stylesheet" href="home.css" />
   <script defer src="auth.js"></script>
   <style>
@@ -55,22 +55,35 @@
       background-color: #ff2b2b;
     }
 
-    .error-message {
-      color: red;
+    .error-message, .success-message {
       margin-top: 10px;
       text-align: center;
+      font-weight: bold;
+    }
+
+    .error-message {
+      color: red;
     }
 
     .success-message {
       color: green;
-      margin-top: 10px;
-      text-align: center;
     }
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem("currentUser")) {
+      window.location.href = "index.html";
+    }
+  </script>
+
   <header>
-    <h1>Emergency Fund Generator</h1>
+    <h1>FundGuard</h1>
+    <nav>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </nav>
   </header>
 
   <div class="login-container">
