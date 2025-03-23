@@ -1,181 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FundGuard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #ffebe8;
-        }
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 3px solid #ff6b6b;
-        }
-        .progress {
-            height: 10px;
-            background: #ff6b6b;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .form-step {
-            display: none;
-        }
-        .form-step.active {
-            display: block;
-        }
-        button {
-            padding: 10px;
-            margin: 10px;
-            stroke: black;
-            stroke-width: 2%;
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        canvas {
-            max-width: 100%;
-            margin-top: 20px;
-        }
-        /* Saving Tips Section (Only on Summary Page) */
-        .saving-tips {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #fff0f0;
-            border-radius: 10px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-            display: none; /* Hidden by default */
-        }
-        .saving-tips h2 {
-            font-size: 24px;
-            color: #ff6b6b;
-        }
-        .tip-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-        }
-        .tip-item img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-left: 15px;
-        }
-        .tip-item .tip {
-            max-width: 80%;
-            font-size: 18px;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>FundGuard</h1>
-        <img src="logo.png" alt="Logo" class="logo-img">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="container">
-        <div class="progress" id="progress" style="width: 16%;"></div>
-        <form id="fund-form">
-            <div class="form-step active">
-                <h2>How much is your monthly rent?</h2>
-                <input type="number" id="rent" required>
-            </div>
-            <div class="form-step">
-                <h2>How much do you spend on food per month?</h2>
-                <input type="number" id="food" required>
-            </div>
-            <div class="form-step">
-                <h2>How much is your transportation cost per month?</h2>
-                <input type="number" id="transport" required>
-            </div>
-            <div class="form-step">
-                <h2>Other expenses (insurance, healthcare, phone bill)?</h2>
-                <input type="number" id="other" required>
-            </div>
-            <div class="form-step">
-                <h2>Job Stability</h2>
-                <select id="job-stability">
-                    <option value="good">Good</option>
-                    <option value="weak">Weak</option>
-                </select>
-                <h2>Do you have dependents?</h2>
-                <select id="dependents">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
-            </div>
-            <div class="form-step">
-                <h2>In how many months do you want your emergency fund?</h2>
-                <input type="number" id="investment_time" value="12" min="1" required>
-            </div>
-            <div class="form-step">
-                <h2>What is your monthly income?</h2>
-                <input type="number" id="income" required>
-            </div>
-            <div class="form-step">
-                <h2>Summary</h2>
-                <p id="summary-text"></p>
-                <canvas id="expenseChart"></canvas>
-                <!-- Saving Tips Section (Visible only on the Summary Page) -->
-                <div class="saving-tips" id="saving-tips">
-                    <h2>Helpful Tips for Saving Money</h2>
-                    <div class="tip-item">
-                        <div class="tip">🍏 Buy groceries in bulk and cook meals at home to save money on food.</div>
-                        <img src="grocery.jpg" alt="Grocery Tip">
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip">💵 Put a portion of your income aside every paycheck, even if it’s a small amount.</div>
-                        
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip">📱 Use budgeting apps to track your spending and identify where you can cut costs.</div>
-                        
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip">🚶‍♀️ Use public transportation or carpool to reduce your transportation expenses.</div>
-                        
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip">🏠 Consider downsizing your living space or negotiating your rent to lower housing costs.</div>
-                        
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip">🎉 Set specific savings goals and reward yourself when you reach them to stay motivated.</div>
-                        
-                    </div>
-                </div>
-            </div>
-            <button type="button" id="prev" style="display: none;">Previous</button>
-            <button type="button" id="next">Next</button>
-        </form>
-    </div>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Emergency Fund Calculator</title>
+  <link rel="stylesheet" href="home.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3dTtXZzhuUsKtePAe79RIvIbvxaTdXWA",
+      authDomain: "fundguard.firebaseapp.com",
+      projectId: "fundguard",
+      storageBucket: "fundguard.appspot.com",
+      messagingSenderId: "324560580067",
+      appId: "1:324560580067:web:f19ff1c1ec816c737d04d6"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
   <script defer src="auth.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
       background-color: #ffebe8;
+      margin: 0;
+      text-align: center;
     }
     .header-bar {
       display: flex;
@@ -230,74 +84,60 @@
       max-width: 100%;
       margin-top: 20px;
     }
-    .saving-tips {
-      margin-top: 40px;
-      padding: 20px;
-      background-color: #fff0f0;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    }
-    .saving-tips h2 {
-      font-size: 24px;
-      color: #ff6b6b;
-    }
-    .tip-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 15px 0;
-    }
-    .tip-item img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin-left: 15px;
-    }
-    .tip-item .tip {
-      max-width: 80%;
-      font-size: 18px;
-      color: #333;
+    .tips {
+      text-align: left;
+      margin-top: 20px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <!-- Auth check -->
+  <!-- Firebase Auth Check -->
   <script>
-    if (!localStorage.getItem("currentUser")) {
-      window.location.href = "loginindex.html";
-    }
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        const welcome = document.getElementById("welcomeUser");
+        if (welcome) welcome.textContent = "Welcome, " + (user.displayName || user.email);
+      }
+    });
   </script>
 
-  <!-- Header / Logout -->
-  <div class="header-bar">
-    <div class="user-info" id="welcomeUser">Welcome!</div>
-    <button class="logout-btn" onclick="logoutUser()">Logout</button>
-  </div>
+  <!-- Header -->
+  <header>
+    <h1>FundGuard</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <span class="user-info" id="welcomeUser"></span>
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </div>
+  </header>
 
   <!-- Main Form -->
   <div class="container">
-    <div class="progress" id="progress" style="width: 14%;"></div>
+    <div class="progress" id="progress" style="width: 16%;"></div>
     <form id="fund-form">
       <div class="form-step active">
         <h2>How much is your monthly rent?</h2>
         <input type="number" id="rent" required>
       </div>
-
       <div class="form-step">
         <h2>How much do you spend on food per month?</h2>
         <input type="number" id="food" required>
       </div>
-
       <div class="form-step">
         <h2>How much is your transportation cost per month?</h2>
         <input type="number" id="transport" required>
       </div>
-
       <div class="form-step">
         <h2>Other expenses (insurance, healthcare, phone bill)?</h2>
         <input type="number" id="other" required>
       </div>
-
       <div class="form-step">
         <h2>Job Stability</h2>
         <select id="job-stability">
@@ -310,43 +150,26 @@
           <option value="yes">Yes</option>
         </select>
       </div>
-
       <div class="form-step">
         <h2>In how many months do you want your emergency fund?</h2>
         <input type="number" id="investment_time" value="12" min="1" required>
       </div>
-
       <div class="form-step">
         <h2>What is your monthly income?</h2>
         <input type="number" id="income" required>
       </div>
-
       <div class="form-step">
         <h2>Summary</h2>
         <p id="summary-text"></p>
         <canvas id="expenseChart"></canvas>
-        <div class="saving-tips" id="saving-tips">
-          <h2>Helpful Tips for Saving Money</h2>
-          <div class="tip-item">
-            <div class="tip">🍏 Buy groceries in bulk and cook meals at home.</div>
-            <img src="grocery.jpg" alt="Grocery Tip">
-          </div>
-          <div class="tip-item">
-            <div class="tip">💵 Save a small portion every paycheck.</div>
-            <img src="paycheck.jpg" alt="Paycheck Tip">
-          </div>
-          <div class="tip-item">
-            <div class="tip">📱 Use budgeting apps to track your spending.</div>
-            <img src="budgeting.jpg" alt="Budgeting Tip">
-          </div>
-        </div>
+        <div class="tips" id="saving-tips"></div>
       </div>
-
-      <button type="button" id="prev">Previous</button>
+      <button type="button" id="prev" style="display: none;">Previous</button>
       <button type="button" id="next">Next</button>
     </form>
   </div>
 
+  <!-- Script Logic -->
   <script>
     const steps = document.querySelectorAll(".form-step");
     const nextBtn = document.getElementById("next");
