@@ -166,13 +166,15 @@
                 <div class="tips" id="saving-tips"></div>
             </div>
             <button type="button" id="prev" style="display: none;">Previous</button>
-            <!-- Removed the "Next" button -->
+            <button type="button" id="next">Next</button>
         </form>
     </div>
 
     <script>
         let currentStep = 0;
         const steps = document.querySelectorAll(".form-step");
+        const nextBtn = document.getElementById("next");
+        const prevBtn = document.getElementById("prev");
         const progress = document.getElementById("progress");
 
         function updateForm() {
@@ -180,10 +182,9 @@
                 step.classList.toggle("active", index === currentStep);
             });
             prevBtn.style.display = currentStep > 0 ? "inline-block" : "none";
+            nextBtn.innerText = currentStep === steps.length - 2 ? "Finish" : "Next"; // Change text on last step
             progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
         }
-
-        const nextBtn = document.getElementById("next");
 
         nextBtn.addEventListener("click", () => {
             if (currentStep === steps.length - 2) {
@@ -238,8 +239,8 @@
                     <li>📊 Track your expenses to identify unnecessary spending.</li>
                     <li>💰 Automate your savings for consistency.</li>
                     <li>🛒 Look for discounts and sales when shopping.</li>
-                    <li>🍽️ Cook meals at home to save money on dining out.</li>
-                    <li>📅 Set up a budget and stick to it.</li>
+                    <li>🍽️ Cook meals at home to reduce dining out costs.</li>
+                    <li>🚶‍♂️ Walk or bike to save on transportation costs.</li>
                     <li>🔒 Avoid impulse purchases by sticking to your list.</li>
                     <li>💳 Use cash instead of credit to avoid debt.</li>
                     <li>🚲 Use public transport or carpool to save on gas.</li>
@@ -247,7 +248,7 @@
                     <li>💼 Consider taking a side job for extra income.</li>
                 </ul>
             `;
-
+            
             renderChart(rent, food, transport, other, income);
         }
 
