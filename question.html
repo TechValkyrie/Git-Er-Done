@@ -50,9 +50,71 @@
             margin-top: 20px;
             font-size: 14px;
         }
+        header {
+            background-color: #ff6b6b;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .header-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .header-right button {
+            background-color: #2ed573;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        .header-right button:hover {
+            background-color: #1e8e4f;
+        }
+        .header-right .user-info {
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <h1>FundGuard</h1>
+        <img src="logo.png" alt="Logo" class="logo-img">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <span class="user-info" id="welcomeUser">Welcome, User!</span>
+            <button class="logout-btn" onclick="logoutUser()">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
     <div class="container">
         <div class="progress" id="progress" style="width: 16%;"></div>
         <form id="fund-form">
@@ -169,16 +231,16 @@
             document.getElementById("saving-tips").innerHTML = `
                 <h3>Money-Saving Tips:</h3>
                 <ul>
-                    <li>Track your expenses to identify unnecessary spending.</li>
-                    <li>Set up automatic transfers to your savings account.</li>
-                    <li>Cut down on dining out and prepare meals at home.</li>
-                    <li>Use public transportation or carpool to save on gas.</li>
-                    <li>Cancel unused subscriptions and memberships.</li>
-                    <li>Buy in bulk for household essentials to save money.</li>
-                    <li>Look for discounts, coupons, and cashback deals.</li>
-                    <li>Consider taking on a side gig for extra income.</li>
-                    <li>Review and renegotiate bills like insurance and phone plans.</li>
-                    <li>Use a budget planner to stay on track with your financial goals.</li>
+                    <li>📊 Track your expenses to identify unnecessary spending.</li>
+                    <li>💸 Set up automatic transfers to your savings account.</li>
+                    <li>🍴 Cut down on dining out and prepare meals at home.</li>
+                    <li>🚶‍♂️ Use public transportation or carpool to save on gas.</li>
+                    <li>📅 Cancel unused subscriptions and memberships.</li>
+                    <li>📦 Buy in bulk for household essentials to save money.</li>
+                    <li>🛍️ Look for discounts, coupons, and cashback deals.</li>
+                    <li>💼 Consider taking on a side gig for extra income.</li>
+                    <li>📞 Review and renegotiate bills like insurance and phone plans.</li>
+                    <li>📓 Use a budget planner to stay on track with your financial goals.</li>
                 </ul>
             `;
             
@@ -198,6 +260,11 @@
                     }]
                 }
             });
+        }
+
+        function logoutUser() {
+            // Logout logic here
+            alert("Logged out!");
         }
 
         updateForm();
