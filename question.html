@@ -116,11 +116,11 @@
         }
 
         nextBtn.addEventListener("click", () => {
-            if (currentStep === steps.length - 2) {
-                calculateEmergencyFund();
+            if (currentStep < steps.length - 1) {
                 currentStep++;
-            } else if (currentStep < steps.length - 1) {
-                currentStep++;
+            }
+            if (currentStep === steps.length - 1) {
+                calculateEmergencyFund(); // Run only once when reaching the summary
             }
             updateForm();
         });
@@ -135,7 +135,8 @@
             let food = parseFloat(document.getElementById("food").value) || 0;
             let transport = parseFloat(document.getElementById("transport").value) || 0;
             let other = parseFloat(document.getElementById("other").value) || 0;
-            let income = parseFloat(document.getElementById("income").value.trim()) || 0;
+            let incomeValue = document.getElementById("income").value.trim();
+            let income = incomeValue !== "" ? parseFloat(incomeValue) : 0;
             let investment_time = parseInt(document.getElementById("investment_time").value) || 6;
 
             let jobStability = document.getElementById("job-stability").value;
@@ -164,20 +165,27 @@
             renderChart(rent, food, transport, other, income);
         }
 
-        function renderChart(rent, food, transport, other, income) {
-            const ctx = document.getElementById('expenseChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
-                    datasets: [{
-                        label: 'Monthly Breakdown',
-                        data: [rent, food, transport, other, income],
-                        backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
-                    }]
-                }
-            });
+        let chartInstance = null;
+    function renderChart(rent, food, transport, other, income) {
+    const ctx = document.getElementById('expenseChart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
+            datasets: [{
+                label: 'Monthly Breakdown',
+                data: [rent, food, transport, other, income],
+                backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
+            }]
         }
+    });
+}
 
         updateForm();
     </script>
