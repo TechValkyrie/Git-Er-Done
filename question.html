@@ -135,7 +135,7 @@
             let food = parseFloat(document.getElementById("food").value) || 0;
             let transport = parseFloat(document.getElementById("transport").value) || 0;
             let other = parseFloat(document.getElementById("other").value) || 0;
-            let income = parseFloat(document.getElementById("income").value) || 0;
+            let income = parseFloat(document.getElementById("income").value.trim()) || 0;
             let investment_time = parseInt(document.getElementById("investment_time").value) || 6;
 
             let jobStability = document.getElementById("job-stability").value;
