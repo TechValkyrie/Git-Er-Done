@@ -63,6 +63,7 @@ nav ul li a:hover {
 
 /* Affects FunFact stuff */
 .funfacts {
+    font-family: "Copperplate", "Copperplate Gothic", fantasy;
     margin: 50px 0;
 }
 
