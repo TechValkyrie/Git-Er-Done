@@ -1,8 +1,5 @@
-// auth.js
-
 function logoutUser() {
     firebase.auth().signOut().then(() => {
-      localStorage.removeItem("currentUser");
       window.location.href = "loginindex.html?logout=1";
     });
   }
@@ -11,7 +8,7 @@ function logoutUser() {
     const form = document.getElementById("login-form");
     const message = document.getElementById("message");
   
-    // Show logout success message
+    // Show logout message if redirected
     if (window.location.search.includes("logout=1") && message) {
       message.textContent = "✅ You have been successfully logged out.";
       message.className = "success-message";
@@ -26,16 +23,14 @@ function logoutUser() {
       const password = document.getElementById("password").value;
   
       try {
-        // Try to log in
+        // Try login
         await firebase.auth().signInWithEmailAndPassword(email, password);
-        localStorage.setItem("currentUser", email);
         window.location.href = "index.html";
       } catch (error) {
         if (error.code === "auth/user-not-found") {
-          // Try to sign up
           try {
+            // Try register
             await firebase.auth().createUserWithEmailAndPassword(email, password);
-            localStorage.setItem("currentUser", email);
             message.textContent = "✅ Account created. Redirecting...";
             message.className = "success-message";
             setTimeout(() => {

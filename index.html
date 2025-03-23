@@ -59,10 +59,16 @@
       if (!user) {
         window.location.href = "loginindex.html";
       } else {
-        document.getElementById("welcomeUser").textContent = `Welcome, ${user.email}`;
+        window.addEventListener("DOMContentLoaded", () => {
+          const welcome = document.getElementById("welcomeUser");
+          if (welcome) {
+            welcome.textContent = `Welcome, ${user.email}`;
+          }
+        });
       }
     });
   </script>
+  
 
   <header>
     <h1>FundGuard</h1>
