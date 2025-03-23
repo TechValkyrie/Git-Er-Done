@@ -27,15 +27,35 @@
 <body>
   <script>
     firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = "loginindex.html";
-      } else {
-        const welcome = document.getElementById("welcomeUser");
-        if (welcome) {
-          welcome.textContent = `Welcome, ${user.email}`;
-        }
-      }
-    });
+  console.log("Auth state changed:", user);
+  if (!user) {
+    console.log("No user found. Redirecting...");
+    window.location.href = "loginindex.html";
+  } else {
+    console.log("User found:", user.email);
+    const welcome = document.getElementById("welcomeUser");
+    if (welcome) {
+      welcome.textContent = `Welcome, ${user.email}`;
+    }
+  }
+});
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => {
+    console.log("Auth persistence set to LOCAL");
+  })
+  .catch(error => {
+    console.error("Error setting auth persistence:", error);
+  });
+
+  function logoutUser() {
+  firebase.auth().signOut().then(() => {
+    console.log("User signed out");
+    window.location.href = "loginindex.html";
+  }).catch(error => {
+    console.error("Logout error:", error);
+  });
+}
   </script>
 
   <div class="header-bar">
