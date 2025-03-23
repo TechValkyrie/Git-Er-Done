@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FundGuard</title>
   <link rel="stylesheet" href="home.css" />
 
-  <!-- Firebase SDK v8 -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
@@ -16,13 +16,10 @@
       projectId: "fundguard",
       storageBucket: "fundguard.appspot.com",
       messagingSenderId: "324560580067",
-      appId: "1:324560580067:web:f19ff1c1ec816c737d04d6",
-      measurementId: "G-TCBYHVM6NL"
+      appId: "1:324560580067:web:f19ff1c1ec816c737d04d6"
     };
     firebase.initializeApp(firebaseConfig);
   </script>
-
-  <!-- Auth Logic -->
   <script defer src="auth.js"></script>
 
   <style>
@@ -31,7 +28,6 @@
       margin-left: 20px;
       color: white;
     }
-
     .logout-btn {
       margin-left: 20px;
       background-color: #fff;
@@ -42,11 +38,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     .logout-btn:hover {
       background-color: #ffe6e6;
     }
-
     .header-right {
       display: flex;
       align-items: center;
@@ -54,22 +48,17 @@
   </style>
 </head>
 <body>
-  <!-- Firebase Auth Check -->
   <script>
     firebase.auth().onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "login.html";
       } else {
-        const welcome = document.getElementById("welcomeUser");
-        if (welcome) {
-          welcome.textContent = `Welcome, ${user.email}`;
-        }
-        localStorage.setItem("currentUser", user.email); // optional
+        document.getElementById("welcomeUser").textContent = "Welcome, " + (user.displayName || user.email);
       }
     });
   </script>
 
-  <!-- Header -->
+  <!-- Header Section -->
   <header>
     <h1>FundGuard</h1>
     <img src="logo.png" alt="Logo" class="logo-img">
@@ -80,7 +69,7 @@
       </ul>
     </nav>
     <div class="header-right">
-      <span class="user-info" id="welcomeUser">Welcome!</span>
+      <span class="user-info" id="welcomeUser"></span>
       <button class="logout-btn" onclick="logoutUser()">Logout</button>
     </div>
   </header>

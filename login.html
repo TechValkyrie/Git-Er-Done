@@ -22,6 +22,8 @@
     firebase.initializeApp(firebaseConfig);
   </script>
 
+  <script defer src="auth.js"></script>
+
   <style>
     .login-container {
       max-width: 400px;
@@ -87,67 +89,28 @@
   </style>
 </head>
 <body>
+  <header>
+    <h1>FundGuard</h1>
+    <nav>
+      <ul><li><a href="about.html">About Us</a></li></ul>
+    </nav>
+  </header>
+
   <div class="login-container">
-    <h2>Log In to FundGuard</h2>
+    <h2>Login or Sign Up</h2>
     <form id="login-form">
-      <label for="email">Email:</label>
-      <input type="email" id="email" required />
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" placeholder="Only for new users" />
+
+      <label for="username">Email:</label>
+      <input type="email" id="username" required />
 
       <label for="password">Password:</label>
       <input type="password" id="password" required />
 
-      <button type="submit">Log In</button>
-      <p id="message"></p>
+      <button type="submit">Login / Sign Up</button>
+      <p id="message" class="error-message"></p>
     </form>
-    <p style="text-align:center;">Need an account? <a href="signup.html">Sign Up</a></p>
   </div>
-
-  <script>
-    // Check logout success
-    const msg = document.getElementById("message");
-    if (window.location.search.includes("logout=1")) {
-      msg.textContent = "✅ You’ve been successfully logged out.";
-      msg.className = "success-message";
-    }
-
-    const form = document.getElementById("login-form");
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const button = form.querySelector("button");
-
-      msg.textContent = "";
-      msg.className = "";
-      button.disabled = true;
-
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-          msg.className = "success-message";
-          msg.textContent = "✅ Logged in!";
-          setTimeout(() => window.location.href = "index.html", 500);
-        })
-        .catch((err) => {
-          msg.className = "error-message";
-          switch (err.code) {
-            case "auth/wrong-password":
-              msg.textContent = "❌ Incorrect password. Please try again.";
-              break;
-            case "auth/user-not-found":
-              msg.textContent = "❌ No account found with this email.";
-              break;
-            case "auth/invalid-email":
-              msg.textContent = "❌ Please enter a valid email address.";
-              break;
-            default:
-              msg.textContent = "❌ " + err.message;
-          }
-        })
-        .finally(() => {
-          button.disabled = false;
-        });
-    });
-  </script>
 </body>
 </html>
