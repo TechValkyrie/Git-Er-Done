@@ -11,55 +11,6 @@
             text-align: center;
             background-color: #ffebe8;
         }
-
-        header {
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
-    padding: 20px;
-    color: white;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    }
-
-    header h1 {
-    margin: 0;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    }
-
-    .logo-img {
-    width: 30px; 
-    height: 30px;
-    margin-left: 10px; 
-    }
-
-    nav ul {
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    }
-
-   nav ul li {
-    margin-left: 20px;
-    }
-
-    nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background 0.3s;
-    }   
-
-    nav ul li a:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
         .container {
             width: 50%;
             margin: 50px auto;
@@ -215,8 +166,187 @@
             <button type="button" id="next">Next</button>
         </form>
     </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emergency Fund Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="auth.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #ffebe8;
+    }
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #ff4b2b;
+      color: white;
+    }
+    .logout-btn {
+      background-color: white;
+      color: #ff4b2b;
+      font-weight: bold;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logout-btn:hover {
+      background-color: #ffe6e6;
+    }
+    .user-info {
+      font-weight: bold;
+    }
+    .container {
+      width: 50%;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border: 3px solid #ff6b6b;
+    }
+    .progress {
+      height: 10px;
+      background: #ff6b6b;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+    button {
+      padding: 10px;
+      margin: 10px;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    canvas {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+    .saving-tips {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #fff0f0;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    .saving-tips h2 {
+      font-size: 24px;
+      color: #ff6b6b;
+    }
+    .tip-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+    }
+    .tip-item img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-left: 15px;
+    }
+    .tip-item .tip {
+      max-width: 80%;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Auth check -->
+  <script>
+    if (!localStorage.getItem("currentUser")) {
+      window.location.href = "loginindex.html";
+    }
+  </script>
 
-  <!-- Script Logic -->
+  <!-- Header / Logout -->
+  <div class="header-bar">
+    <div class="user-info" id="welcomeUser">Welcome!</div>
+    <button class="logout-btn" onclick="logoutUser()">Logout</button>
+  </div>
+
+  <!-- Main Form -->
+  <div class="container">
+    <div class="progress" id="progress" style="width: 14%;"></div>
+    <form id="fund-form">
+      <div class="form-step active">
+        <h2>How much is your monthly rent?</h2>
+        <input type="number" id="rent" required>
+      </div>
+
+      <div class="form-step">
+        <h2>How much do you spend on food per month?</h2>
+        <input type="number" id="food" required>
+      </div>
+
+      <div class="form-step">
+        <h2>How much is your transportation cost per month?</h2>
+        <input type="number" id="transport" required>
+      </div>
+
+      <div class="form-step">
+        <h2>Other expenses (insurance, healthcare, phone bill)?</h2>
+        <input type="number" id="other" required>
+      </div>
+
+      <div class="form-step">
+        <h2>Job Stability</h2>
+        <select id="job-stability">
+          <option value="good">Good</option>
+          <option value="weak">Weak</option>
+        </select>
+        <h2>Do you have dependents?</h2>
+        <select id="dependents">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+
+      <div class="form-step">
+        <h2>In how many months do you want your emergency fund?</h2>
+        <input type="number" id="investment_time" value="12" min="1" required>
+      </div>
+
+      <div class="form-step">
+        <h2>What is your monthly income?</h2>
+        <input type="number" id="income" required>
+      </div>
+
+      <div class="form-step">
+        <h2>Summary</h2>
+        <p id="summary-text"></p>
+        <canvas id="expenseChart"></canvas>
+        <div class="saving-tips" id="saving-tips">
+          <h2>Helpful Tips for Saving Money</h2>
+          <div class="tip-item">
+            <div class="tip">🍏 Buy groceries in bulk and cook meals at home.</div>
+            <img src="grocery.jpg" alt="Grocery Tip">
+          </div>
+          <div class="tip-item">
+            <div class="tip">💵 Save a small portion every paycheck.</div>
+            <img src="paycheck.jpg" alt="Paycheck Tip">
+          </div>
+          <div class="tip-item">
+            <div class="tip">📱 Use budgeting apps to track your spending.</div>
+            <img src="budgeting.jpg" alt="Budgeting Tip">
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="prev">Previous</button>
+      <button type="button" id="next">Next</button>
+    </form>
+  </div>
+
   <script>
     const steps = document.querySelectorAll(".form-step");
     const nextBtn = document.getElementById("next");
