@@ -103,11 +103,19 @@
   </div>
 
   <script>
-    document.getElementById("login-form").addEventListener("submit", function (e) {
+    const form = document.getElementById("login-form");
+    const msg = document.getElementById("message");
+
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
+
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      const msg = document.getElementById("message");
+      const button = form.querySelector("button");
+
+      msg.textContent = "";
+      msg.className = "";
+      button.disabled = true;
 
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
@@ -117,15 +125,22 @@
         })
         .catch((err) => {
           msg.className = "error-message";
-          if (err.code === "auth/wrong-password") {
-            msg.textContent = "❌ Incorrect password. Please try again.";
-          } else if (err.code === "auth/user-not-found") {
-            msg.textContent = "❌ No account found with this email.";
-          } else if (err.code === "auth/invalid-email") {
-            msg.textContent = "❌ Please enter a valid email address.";
-          } else {
-            msg.textContent = "❌ " + err.message;
+          switch (err.code) {
+            case "auth/wrong-password":
+              msg.textContent = "❌ Incorrect password. Please try again.";
+              break;
+            case "auth/user-not-found":
+              msg.textContent = "❌ No account found with this email.";
+              break;
+            case "auth/invalid-email":
+              msg.textContent = "❌ Please enter a valid email address.";
+              break;
+            default:
+              msg.textContent = "❌ " + err.message;
           }
+        })
+        .finally(() => {
+          button.disabled = false;
         });
     });
   </script>
