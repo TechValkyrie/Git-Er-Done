@@ -211,12 +211,11 @@
         });
 
         
-        nextBtn.style.display = "none"
-        prevBtn.style.display = "none"
-       // prevBtn.addEventListener("click", () => {
-         //   currentStep--;
-           // updateForm();
-      //  });
+        
+        prevBtn.addEventListener("click", () => {
+            currentStep--;
+            updateForm();
+        });
 
         function calculateEmergencyFund() {
             let rent = parseFloat(document.getElementById("rent").value) || 0;
@@ -251,6 +250,8 @@
                     <li>💼 Consider taking a side job for extra income.</li>
                 </ul>
             `;
+            nextBtn.style.display = "none"
+            prevBtn.style.display = "none"
             renderChart(rent, food, transport, other, income);
         }
 
