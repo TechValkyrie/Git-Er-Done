@@ -50,6 +50,7 @@
             margin-top: 20px;
             font-size: 14px;
         }
+        /* Header Styles */
         header {
             background-color: #ff6b6b;
             padding: 10px;
@@ -83,22 +84,26 @@
             gap: 10px;
             align-items: center;
         }
-        .header-right button {
-            background-color: #2ed573;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-        }
-        .header-right button:hover {
-            background-color: #1e8e4f;
-        }
         .header-right .user-info {
             color: white;
+            font-weight: bold;
+        }
+        .logout-btn {
+            background-color: #fff;
+            color: #ff4b2b;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #ffe6e6;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header Section -->
     <header>
         <h1>FundGuard</h1>
         <img src="logo.png" alt="Logo" class="logo-img">
@@ -109,7 +114,7 @@
             </ul>
         </nav>
         <div class="header-right">
-            <span class="user-info" id="welcomeUser">Welcome, User!</span>
+            <span class="user-info" id="welcomeUser"></span>
             <button class="logout-btn" onclick="logoutUser()">Logout</button>
         </div>
     </header>
@@ -177,7 +182,7 @@
                 step.classList.toggle("active", index === currentStep);
             });
             prevBtn.style.display = currentStep > 0 ? "inline-block" : "none";
-            nextBtn.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
+            nextBtn.innerText = currentStep === steps.length - 2 ? "Finish" : "Next";
             progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
         }
 
@@ -232,41 +237,42 @@
                 <h3>Money-Saving Tips:</h3>
                 <ul>
                     <li>📊 Track your expenses to identify unnecessary spending.</li>
-                    <li>💸 Set up automatic transfers to your savings account.</li>
-                    <li>🍴 Cut down on dining out and prepare meals at home.</li>
-                    <li>🚶‍♂️ Use public transportation or carpool to save on gas.</li>
-                    <li>📅 Cancel unused subscriptions and memberships.</li>
-                    <li>📦 Buy in bulk for household essentials to save money.</li>
-                    <li>🛍️ Look for discounts, coupons, and cashback deals.</li>
-                    <li>💼 Consider taking on a side gig for extra income.</li>
-                    <li>📞 Review and renegotiate bills like insurance and phone plans.</li>
-                    <li>📓 Use a budget planner to stay on track with your financial goals.</li>
+                    <li>💰 Automate your savings for consistency.</li>
+                    <li>🛒 Look for discounts and sales when shopping.</li>
                 </ul>
             `;
-            
-            renderChart(rent, food, transport, other, income);
+
+            renderChart(emergencyFundNeeded);
         }
 
-        function renderChart(rent, food, transport, other, income) {
-            const ctx = document.getElementById('expenseChart').getContext('2d');
+        function renderChart(emergencyFundNeeded) {
+            const ctx = document.getElementById("expenseChart").getContext("2d");
             new Chart(ctx, {
-                type: 'bar',
+                type: "pie",
                 data: {
-                    labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
+                    labels: ["Emergency Fund", "Remaining"],
                     datasets: [{
-                        label: 'Monthly Breakdown',
-                        data: [rent, food, transport, other, income],
-                        backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
+                        label: "Emergency Fund Allocation",
+                        data: [emergencyFundNeeded, 10000 - emergencyFundNeeded],
+                        backgroundColor: ["#ff6b6b", "#e0e0e0"],
                     }]
                 }
             });
         }
 
+        // Logout functionality
         function logoutUser() {
-            // Logout logic here
-            alert("Logged out!");
+            localStorage.removeItem("currentUser");
+            window.location.href = "loginindex.html";
         }
 
+        // Show user info
+        const username = localStorage.getItem("currentUser");
+        if (username) {
+            document.getElementById("welcomeUser").textContent = `Welcome, ${username}`;
+        }
+
+        // Initialize
         updateForm();
     </script>
 </body>
