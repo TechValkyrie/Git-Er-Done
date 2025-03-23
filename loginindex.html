@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Emergency Fund Generator</title>
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    .login-container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #ff4b2b;
+      text-align: center;
+    }
+
+    .login-container label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .login-container button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #ff4b2b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-container button:hover {
+      background-color: #ff2b2b;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Emergency Fund Generator</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="question.html">Questionnaire</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Login Form -->
+  <div class="login-container">
+    <h2>Create an Account</h2>
+    <form id="signup-form">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Sign Up</button>
+      <p class="error-message" id="error-msg"></p>
+    </form>
+  </div>
+
+  <script>
+    const takenUsernames = ['jude', 'jack', 'rachel', 'william']; // Example taken usernames
+    const form = document.getElementById('signup-form');
+    const errorMsg = document.getElementById('error-msg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim().toLowerCase();
+      const password = document.getElementById('password').value.trim();
+
+      if (takenUsernames.includes(username)) {
+        errorMsg.textContent = "⚠️ Username is already taken. Please choose another.";
+      } else {
+        errorMsg.style.color = "green";
+        errorMsg.textContent = "✅ Account created successfully!";
+        takenUsernames.push(username);
+        form.reset();
+      }
+    });
+  </script>
+
+</body>
+</html>
