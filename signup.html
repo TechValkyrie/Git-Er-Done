@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - FundGuard</title>
+  <title>Sign Up - FundGuard</title>
   <link rel="stylesheet" href="home.css" />
 
   <!-- Firebase 8 SDK -->
@@ -23,7 +23,7 @@
   </script>
 
   <style>
-    .login-container {
+    .signup-container {
       max-width: 400px;
       margin: 80px auto;
       padding: 30px;
@@ -33,19 +33,19 @@
       text-align: left;
     }
 
-    .login-container h2 {
+    .signup-container h2 {
       margin-bottom: 20px;
       color: #ff4b2b;
       text-align: center;
     }
 
-    .login-container label {
+    .signup-container label {
       font-weight: bold;
       display: block;
       margin-top: 15px;
     }
 
-    .login-container input {
+    .signup-container input {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -54,7 +54,7 @@
       font-size: 1em;
     }
 
-    .login-container button {
+    .signup-container button {
       width: 100%;
       margin-top: 20px;
       padding: 12px;
@@ -67,7 +67,7 @@
       transition: background 0.3s;
     }
 
-    .login-container button:hover {
+    .signup-container button:hover {
       background-color: #ff2b2b;
     }
 
@@ -87,32 +87,32 @@
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Log In to FundGuard</h2>
-    <form id="login-form">
+  <div class="signup-container">
+    <h2>Create a FundGuard Account</h2>
+    <form id="signup-form">
       <label for="email">Email:</label>
       <input type="email" id="email" required />
 
       <label for="password">Password:</label>
       <input type="password" id="password" required />
 
-      <button type="submit">Log In</button>
+      <button type="submit">Sign Up</button>
       <p id="message"></p>
     </form>
-    <p style="text-align:center;">Need an account? <a href="signup.html">Sign Up</a></p>
+    <p style="text-align:center;">Already have an account? <a href="login.html">Log In</a></p>
   </div>
 
   <script>
-    document.getElementById("login-form").addEventListener("submit", function (e) {
+    document.getElementById("signup-form").addEventListener("submit", function (e) {
       e.preventDefault();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
       const msg = document.getElementById("message");
 
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
           msg.className = "success-message";
-          msg.textContent = "✅ Logged in!";
+          msg.textContent = "✅ Account created!";
           setTimeout(() => window.location.href = "index.html", 500);
         })
         .catch((err) => {
