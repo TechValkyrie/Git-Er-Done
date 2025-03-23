@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up - FundGuard</title>
   <link rel="stylesheet" href="home.css" />
-
-  <!-- Firebase 8 SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
@@ -16,45 +14,37 @@
       projectId: "fundguard",
       storageBucket: "fundguard.appspot.com",
       messagingSenderId: "324560580067",
-      appId: "1:324560580067:web:f19ff1c1ec816c737d04d6",
-      measurementId: "G-TCBYHVM6NL"
+      appId: "1:324560580067:web:f19ff1c1ec816c737d04d6"
     };
     firebase.initializeApp(firebaseConfig);
   </script>
-
+  <script defer src="auth.js"></script>
   <style>
-    .signup-container {
+    .login-container {
       max-width: 400px;
       margin: 80px auto;
       padding: 30px;
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: left;
     }
-
-    .signup-container h2 {
-      margin-bottom: 20px;
-      color: #ff4b2b;
+    .login-container h2 {
       text-align: center;
+      color: #ff4b2b;
     }
-
-    .signup-container label {
+    label {
       font-weight: bold;
       display: block;
       margin-top: 15px;
     }
-
-    .signup-container input {
+    input {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
       border-radius: 5px;
-      font-size: 1em;
+      border: 1px solid #ccc;
     }
-
-    .signup-container button {
+    button {
       width: 100%;
       margin-top: 20px;
       padding: 12px;
@@ -62,72 +52,38 @@
       color: white;
       border: none;
       border-radius: 5px;
-      font-size: 1em;
       cursor: pointer;
-      transition: background 0.3s;
     }
-
-    .signup-container button:hover {
-      background-color: #ff2b2b;
-    }
-
     .error-message, .success-message {
-      margin-top: 10px;
       text-align: center;
+      margin-top: 10px;
       font-weight: bold;
     }
-
-    .error-message {
-      color: red;
-    }
-
-    .success-message {
-      color: green;
-    }
+    .error-message { color: red; }
+    .success-message { color: green; }
   </style>
 </head>
 <body>
-  <div class="signup-container">
-    <h2>Create a FundGuard Account</h2>
-    <form id="signup-form">
-      <label for="email">Email:</label>
-      <input type="email" id="email" required />
+  <header>
+    <h1>FundGuard</h1>
+  </header>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" required />
+  <div class="login-container">
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+      <label for="signup-name">Username:</label>
+      <input type="text" id="signup-name" required>
+
+      <label for="signup-email">Email:</label>
+      <input type="email" id="signup-email" required>
+
+      <label for="signup-password">Password:</label>
+      <input type="password" id="signup-password" required>
 
       <button type="submit">Sign Up</button>
-      <p id="message"></p>
+      <p id="message" class="error-message"></p>
     </form>
-    <p style="text-align:center;">Already have an account? <a href="login.html">Log In</a></p>
+    <p style="text-align:center;">Already have an account? <a href="login.html">Log in</a></p>
   </div>
-
-  <script>
-    document.getElementById("signup-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const msg = document.getElementById("message");
-
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          msg.className = "success-message";
-          msg.textContent = "✅ Account created!";
-          setTimeout(() => window.location.href = "index.html", 500);
-        })
-        .catch((err) => {
-          msg.className = "error-message";
-          if (err.code === "auth/email-already-in-use") {
-            msg.textContent = "❌ This email is already registered. Please log in.";
-          } else if (err.code === "auth/invalid-email") {
-            msg.textContent = "❌ Please enter a valid email address.";
-          } else if (err.code === "auth/weak-password") {
-            msg.textContent = "❌ Password should be at least 6 characters.";
-          } else {
-            msg.textContent = "❌ " + err.message;
-          }
-        });
-    });
-  </script>
 </body>
 </html>
