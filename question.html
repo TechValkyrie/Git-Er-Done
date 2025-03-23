@@ -116,22 +116,29 @@
   </style>
 </head>
 <body>
-  <!-- Auth Check -->
+  <!-- Firebase Auth + Welcome fix -->
   <script>
     firebase.auth().onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "loginindex.html";
       } else {
-        document.getElementById("welcomeUser").textContent = `Welcome, ${user.email}`;
+        window.addEventListener("DOMContentLoaded", () => {
+          const welcome = document.getElementById("welcomeUser");
+          if (welcome) {
+            welcome.textContent = `Welcome, ${user.email}`;
+          }
+        });
       }
     });
   </script>
 
+  <!-- Header -->
   <div class="header-bar">
     <div class="user-info" id="welcomeUser">Welcome!</div>
     <button class="logout-btn" onclick="logoutUser()">Logout</button>
   </div>
 
+  <!-- Form -->
   <div class="container">
     <div class="progress" id="progress" style="width: 14%;"></div>
     <form id="fund-form">
@@ -139,22 +146,18 @@
         <h2>How much is your monthly rent?</h2>
         <input type="number" id="rent" required>
       </div>
-
       <div class="form-step">
         <h2>How much do you spend on food per month?</h2>
         <input type="number" id="food" required>
       </div>
-
       <div class="form-step">
         <h2>How much is your transportation cost per month?</h2>
         <input type="number" id="transport" required>
       </div>
-
       <div class="form-step">
         <h2>Other expenses (insurance, healthcare, phone bill)?</h2>
         <input type="number" id="other" required>
       </div>
-
       <div class="form-step">
         <h2>Job Stability</h2>
         <select id="job-stability">
@@ -167,20 +170,16 @@
           <option value="yes">Yes</option>
         </select>
       </div>
-
       <div class="form-step">
         <h2>In how many months do you want your emergency fund?</h2>
         <input type="number" id="investment_time" value="12" min="1" required>
       </div>
-
       <div class="form-step">
         <h2>What is your monthly income?</h2>
         <input type="number" id="income" required>
       </div>
-
       <div class="form-step">
         <h2>Summary</h2>
-        <p id="summary-text"></p>
         <canvas id="expenseChart"></canvas>
         <div class="saving-tips" id="saving-tips">
           <h2>Helpful Tips for Saving Money</h2>
@@ -198,7 +197,6 @@
           </div>
         </div>
       </div>
-
       <button type="button" id="prev">Previous</button>
       <button type="button" id="next">Next</button>
     </form>
@@ -219,25 +217,17 @@
       prevBtn.style.display = currentStep > 0 ? "inline-block" : "none";
       nextBtn.innerText = currentStep === steps.length - 1 ? "Restart" : "Next";
       progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
-
-      if (currentStep === steps.length - 1) {
-        savingTips.style.display = "block";
-      } else {
-        savingTips.style.display = "none";
-      }
+      savingTips.style.display = currentStep === steps.length - 1 ? "block" : "none";
     }
 
     nextBtn.addEventListener("click", () => {
       if (currentStep < steps.length - 1) {
-        if (currentStep === steps.length - 2) {
-          calculateEmergencyFund();
-        }
+        if (currentStep === steps.length - 2) calculateEmergencyFund();
         currentStep++;
-        updateForm();
       } else {
         currentStep = 0;
-        updateForm();
       }
+      updateForm();
     });
 
     prevBtn.addEventListener("click", () => {
@@ -262,16 +252,6 @@
       const emergencyFundNeeded = totalMonthlyExpenses * duration;
       const monthlySavingsRequired = emergencyFundNeeded / investment_time;
 
-      const message = totalMonthlyExpenses >= income
-        ? `<p style="color: red; font-weight: bold;">⚠️ Your expenses exceed or match your income!</p>`
-        : "";
-
-      document.getElementById("summary-text").innerHTML = `
-        Your total monthly expenses are <b>$${totalMonthlyExpenses.toFixed(2)}</b>.<br>
-        You should save at least <b>$${emergencyFundNeeded.toFixed(2)}</b> over <b>${investment_time}</b> months.<br>
-        Save <b>$${monthlySavingsRequired.toFixed(2)}</b> per month.<br>${message}
-      `;
-
       renderChart(rent, food, transport, other, income);
     }
 
@@ -287,6 +267,13 @@
             data: [rent, food, transport, other, income],
             backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
           }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
         }
       });
     }
