@@ -5,13 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FundGuard</title>
     <link rel="stylesheet" href="home.css">
+    <script defer src="auth.js"></script>
+    <style>
+        .user-info {
+            font-weight: bold;
+            margin-left: 20px;
+            color: white;
+        }
+
+        .logout-btn {
+            margin-left: 20px;
+            background-color: #fff;
+            color: #ff4b2b;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #ffe6e6;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
+    <!-- Login protection -->
     <script>
         if (!localStorage.getItem("currentUser")) {
-          window.location.href = "login.html";
+            window.location.href = "loginindex.html";
         }
-      </script>
+    </script>
+
     <!-- Header Section -->
     <header>
         <h1>FundGuard</h1>
@@ -22,6 +52,10 @@
                 <li><a href="about.html">About Us</a></li>
             </ul>
         </nav>
+        <div class="header-right">
+            <span class="user-info" id="welcomeUser"></span>
+            <button class="logout-btn" onclick="logoutUser()">Logout</button>
+        </div>
     </header>
 
     <!-- Fun Facts Section -->
@@ -53,5 +87,12 @@
         <a href="question.html" class="cta-button">Take the Questionnaire</a>
     </section>
 
+    <!-- Show user info -->
+    <script>
+        const username = localStorage.getItem("currentUser");
+        if (username) {
+            document.getElementById("welcomeUser").textContent = `Welcome, ${username}`;
+        }
+    </script>
 </body>
 </html>
