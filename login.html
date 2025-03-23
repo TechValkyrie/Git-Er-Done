@@ -6,7 +6,7 @@
   <title>Login - FundGuard</title>
   <link rel="stylesheet" href="home.css" />
 
-  <!-- Firebase 8 SDK -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
@@ -103,9 +103,14 @@
   </div>
 
   <script>
-    const form = document.getElementById("login-form");
+    // Check logout success
     const msg = document.getElementById("message");
+    if (window.location.search.includes("logout=1")) {
+      msg.textContent = "✅ You’ve been successfully logged out.";
+      msg.className = "success-message";
+    }
 
+    const form = document.getElementById("login-form");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -135,6 +140,8 @@
             case "auth/invalid-email":
               msg.textContent = "❌ Please enter a valid email address.";
               break;
+            default:
+              msg.textContent = "❌ " + err.message;
           }
         })
         .finally(() => {
