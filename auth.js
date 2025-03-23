@@ -1,14 +1,19 @@
+// auth.js
+
 function logoutUser() {
-    firebase.auth().signOut().then(() => {
-      window.location.href = "loginindex.html?logout=1";
-    });
+    firebase.auth().signOut()
+      .then(() => {
+        window.location.href = "loginindex.html?logout=1";
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+      });
   }
   
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("login-form");
     const message = document.getElementById("message");
   
-    // Show logout message if redirected
     if (window.location.search.includes("logout=1") && message) {
       message.textContent = "✅ You have been successfully logged out.";
       message.className = "success-message";
@@ -23,13 +28,11 @@ function logoutUser() {
       const password = document.getElementById("password").value;
   
       try {
-        // Try login
         await firebase.auth().signInWithEmailAndPassword(email, password);
         window.location.href = "index.html";
       } catch (error) {
         if (error.code === "auth/user-not-found") {
           try {
-            // Try register
             await firebase.auth().createUserWithEmailAndPassword(email, password);
             message.textContent = "✅ Account created. Redirecting...";
             message.className = "success-message";
