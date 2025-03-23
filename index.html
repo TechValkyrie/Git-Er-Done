@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FundGuard</title>
   <link rel="stylesheet" href="home.css" />
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+  <!-- ✅ Firebase v8 SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyC3dTtXZzhuUsKtePAe79RIvIbvxaTdXWA",
@@ -20,6 +20,20 @@
       measurementId: "G-TCBYHVM6NL"
     };
     firebase.initializeApp(firebaseConfig);
+
+    // Protect the page
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "loginindex.html";
+      } else {
+        document.addEventListener("DOMContentLoaded", () => {
+          const welcome = document.getElementById("welcomeUser");
+          if (welcome) {
+            welcome.textContent = `Welcome, ${user.email}`;
+          }
+        });
+      }
+    });
   </script>
   <script defer src="auth.js"></script>
 
@@ -29,7 +43,6 @@
       margin-left: 20px;
       color: white;
     }
-
     .logout-btn {
       margin-left: 20px;
       background-color: #fff;
@@ -40,11 +53,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     .logout-btn:hover {
       background-color: #ffe6e6;
     }
-
     .header-right {
       display: flex;
       align-items: center;
@@ -52,19 +63,6 @@
   </style>
 </head>
 <body>
-  <script>
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = "loginindex.html";
-      } else {
-        const welcome = document.getElementById("welcomeUser");
-        if (welcome) {
-          welcome.textContent = `Welcome, ${user.email}`;
-        }
-      }
-    });
-  </script>
-
   <header>
     <h1>FundGuard</h1>
     <img src="logo.png" alt="Logo" class="logo-img">
@@ -80,28 +78,7 @@
     </div>
   </header>
 
-  <section class="did-you-know">
-    <h2>Did You Know?</h2>
-    <div class="bubble-container">
-      <div class="bubble-item left">
-        <div class="bubble">🔴 57% of Americans have less than $1,000 in savings!</div>
-        <img src="image1.jpg" alt="Savings Image" class="bubble-img">
-      </div>
-      <div class="bubble-item right">
-        <div class="bubble">🟢 Experts recommend saving at least 3-6 months of expenses.</div>
-        <img src="image2.jpg" alt="Savings Image" class="bubble-img">
-      </div>
-      <div class="bubble-item left">
-        <div class="bubble">🔵 Over 40% of people can’t cover a $400 emergency expense.</div>
-        <img src="image3.jpeg" alt="Savings Image" class="bubble-img">
-      </div>
-      <div class="bubble-item right">
-        <div class="bubble">🟡 Start saving now! Even $10 a week can make a big difference.</div>
-        <img src="image4.jpg" alt="Savings Image" class="bubble-img">
-      </div>
-    </div>
-  </section>
-
+  <!-- Example content -->
   <section class="cta">
     <p>Want to find out how much you should save?</p>
     <a href="question.html" class="cta-button">Take the Questionnaire</a>

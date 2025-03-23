@@ -6,9 +6,9 @@
   <title>Login - FundGuard</title>
   <link rel="stylesheet" href="home.css" />
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+  <!-- Firebase 8 SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyC3dTtXZzhuUsKtePAe79RIvIbvxaTdXWA",
@@ -20,6 +20,11 @@
       measurementId: "G-TCBYHVM6NL"
     };
     firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        window.location.href = "index.html";
+      }
+    });
   </script>
   <script defer src="auth.js"></script>
 
@@ -78,21 +83,23 @@
       font-weight: bold;
     }
 
-    .error-message { color: red; }
-    .success-message { color: green; }
+    .error-message {
+      color: red;
+    }
+
+    .success-message {
+      color: green;
+    }
   </style>
 </head>
 <body>
-  <script>
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        window.location.href = "index.html";
-      }
-    });
-  </script>
-
   <header>
     <h1>FundGuard</h1>
+    <nav>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </nav>
   </header>
 
   <div class="login-container">
@@ -100,8 +107,10 @@
     <form id="login-form">
       <label for="username">Email:</label>
       <input type="email" id="username" required />
+
       <label for="password">Password:</label>
       <input type="password" id="password" required />
+
       <button type="submit">Login / Sign Up</button>
       <p id="message" class="error-message"></p>
     </form>
