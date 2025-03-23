@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-
+    <script>
+        if (!localStorage.getItem("currentUser")) {
+          window.location.href = "login.html";
+        }
+      </script>
     <!-- Header Section -->
     <header>
         <h1>FundGuard</h1>
