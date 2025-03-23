@@ -5,21 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevBtn = document.getElementById("prev");
     const progress = document.getElementById("progress");
 
-    steps.forEach(step => {
-        step.style.position = "absolute";
-        step.style.width = "100%";
-        step.style.transition = "transform 0.5s ease-in-out, opacity 0.5s";
-    });
-
     function updateForm() {
         steps.forEach((step, index) => {
-            if (index === currentStep) {
-                step.style.transform = "translateX(0)";
-                step.style.opacity = "1";
-            } else {
-                step.style.transform = `translateX(${index < currentStep ? "-100%" : "100%"})`;
-                step.style.opacity = "0";
-            }
+            step.classList.toggle("active", index === currentStep);
         });
         prevBtn.style.display = currentStep > 0 ? "inline-block" : "none";
         nextBtn.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
@@ -28,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     nextBtn.addEventListener("click", () => {
         if (currentStep < steps.length - 1) {
+            if (currentStep === steps.length - 2) {
+                calculateEmergencyFund();
+            }
             currentStep++;
             updateForm();
         }
@@ -40,5 +31,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    updateForm();
+    updateForm(); 
 });
