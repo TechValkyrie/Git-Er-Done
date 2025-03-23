@@ -71,7 +71,6 @@
       background-color: #fff0f0;
       border-radius: 10px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      display: none;
     }
     .saving-tips h2 {
       font-size: 24px;
@@ -100,7 +99,7 @@
   <!-- Auth check -->
   <script>
     if (!localStorage.getItem("currentUser")) {
-      window.location.href = "login.html";
+      window.location.href = "loginindex.html";
     }
   </script>
 
@@ -112,32 +111,83 @@
 
   <!-- Main Form -->
   <div class="container">
-    <div class="progress" id="progress" style="width: 16%;"></div>
+    <div class="progress" id="progress" style="width: 14%;"></div>
     <form id="fund-form">
-      <!-- Form Steps Here -->
-      <!-- [ ... same form steps as before ... ] -->
-
-      <!-- Paste all your <div class="form-step"> questions here — unchanged -->
-      <!-- (omitted here to save space, but use your full set from your version) -->
-
       <div class="form-step active">
         <h2>How much is your monthly rent?</h2>
         <input type="number" id="rent" required>
       </div>
-      <!-- Keep the rest of your steps the same as in your current file... -->
 
-      <!-- Buttons -->
-      <button type="button" id="prev" style="display: none;">Previous</button>
+      <div class="form-step">
+        <h2>How much do you spend on food per month?</h2>
+        <input type="number" id="food" required>
+      </div>
+
+      <div class="form-step">
+        <h2>How much is your transportation cost per month?</h2>
+        <input type="number" id="transport" required>
+      </div>
+
+      <div class="form-step">
+        <h2>Other expenses (insurance, healthcare, phone bill)?</h2>
+        <input type="number" id="other" required>
+      </div>
+
+      <div class="form-step">
+        <h2>Job Stability</h2>
+        <select id="job-stability">
+          <option value="good">Good</option>
+          <option value="weak">Weak</option>
+        </select>
+        <h2>Do you have dependents?</h2>
+        <select id="dependents">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+
+      <div class="form-step">
+        <h2>In how many months do you want your emergency fund?</h2>
+        <input type="number" id="investment_time" value="12" min="1" required>
+      </div>
+
+      <div class="form-step">
+        <h2>What is your monthly income?</h2>
+        <input type="number" id="income" required>
+      </div>
+
+      <div class="form-step">
+        <h2>Summary</h2>
+        <p id="summary-text"></p>
+        <canvas id="expenseChart"></canvas>
+        <div class="saving-tips" id="saving-tips">
+          <h2>Helpful Tips for Saving Money</h2>
+          <div class="tip-item">
+            <div class="tip">🍏 Buy groceries in bulk and cook meals at home.</div>
+            <img src="grocery.jpg" alt="Grocery Tip">
+          </div>
+          <div class="tip-item">
+            <div class="tip">💵 Save a small portion every paycheck.</div>
+            <img src="paycheck.jpg" alt="Paycheck Tip">
+          </div>
+          <div class="tip-item">
+            <div class="tip">📱 Use budgeting apps to track your spending.</div>
+            <img src="budgeting.jpg" alt="Budgeting Tip">
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="prev">Previous</button>
       <button type="button" id="next">Next</button>
     </form>
   </div>
 
   <script>
-    // Fill in the username
+    // Welcome message
     const username = localStorage.getItem("currentUser");
     document.getElementById("welcomeUser").textContent = `Welcome, ${username}!`;
 
-    // Your form logic here — unchanged from your current code
+    // Step logic
     let currentStep = 0;
     const steps = document.querySelectorAll(".form-step");
     const nextBtn = document.getElementById("next");
@@ -150,20 +200,35 @@
         step.classList.toggle("active", index === currentStep);
       });
       prevBtn.style.display = currentStep > 0 ? "inline-block" : "none";
-      nextBtn.innerText = currentStep === steps.length - 1 ? "Finish" : "Next";
+      nextBtn.innerText = currentStep === steps.length - 1 ? "Restart" : "Next";
       progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
-      savingTips && (savingTips.style.display = currentStep === steps.length - 1 ? "block" : "none");
+
+      if (currentStep === steps.length - 1) {
+        savingTips.style.display = "block";
+      } else {
+        savingTips.style.display = "none";
+      }
     }
 
     nextBtn.addEventListener("click", () => {
-      if (currentStep < steps.length - 1) currentStep++;
-      if (currentStep === steps.length - 1) calculateEmergencyFund();
-      updateForm();
+      if (currentStep < steps.length - 1) {
+        if (currentStep === steps.length - 2) {
+          calculateEmergencyFund();
+        }
+        currentStep++;
+        updateForm();
+      } else {
+        // Restart
+        currentStep = 0;
+        updateForm();
+      }
     });
 
     prevBtn.addEventListener("click", () => {
-      currentStep--;
-      updateForm();
+      if (currentStep > 0) {
+        currentStep--;
+        updateForm();
+      }
     });
 
     function calculateEmergencyFund() {
@@ -203,12 +268,11 @@
       chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
-            datasets: [{
-                
-                data: [rent, food, transport, other, income],
-                backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
-            }]
+          labels: ['Rent', 'Food', 'Transport', 'Other', 'Income'],
+          datasets: [{
+            data: [rent, food, transport, other, income],
+            backgroundColor: ['#ff6b6b', '#ff9f43', '#1e90ff', '#2ed573', '#3742fa']
+          }]
         }
       });
     }

@@ -19,7 +19,7 @@ function loginUser(username) {
 
 function logoutUser() {
   localStorage.removeItem(currentUserKey);
-  window.location.href = "login.html";
+  window.location.href = "loginindex.html?logout=1"; // add flag for message
 }
 
 function getCurrentUser() {
@@ -29,13 +29,20 @@ function getCurrentUser() {
 // Handle login/signup
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("login-form");
-  if (!form) return; // Only run this script on login.html
+  const message = document.getElementById("message");
+
+  // Display logout success message if redirected
+  if (window.location.search.includes("logout=1") && message) {
+    message.textContent = "✅ You have been successfully logged out.";
+    message.className = "success-message";
+  }
+
+  if (!form) return;
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value;
-    const message = document.getElementById("message");
 
     const users = getUsers();
 
