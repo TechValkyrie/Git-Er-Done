@@ -117,7 +117,15 @@
         })
         .catch((err) => {
           msg.className = "error-message";
-          msg.textContent = "❌ " + err.message;
+          if (err.code === "auth/email-already-in-use") {
+            msg.textContent = "❌ This email is already registered. Please log in.";
+          } else if (err.code === "auth/invalid-email") {
+            msg.textContent = "❌ Please enter a valid email address.";
+          } else if (err.code === "auth/weak-password") {
+            msg.textContent = "❌ Password should be at least 6 characters.";
+          } else {
+            msg.textContent = "❌ " + err.message;
+          }
         });
     });
   </script>
