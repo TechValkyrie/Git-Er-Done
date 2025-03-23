@@ -5,10 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us - FundGuard</title>
   <link rel="stylesheet" href="home.css" />
+
+  <!-- This is our firebase section which we use for storing user data in our loginsection -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3dTtXZzhuUsKtePAe79RIvIbvxaTdXWA",
+      authDomain: "fundguard.firebaseapp.com",
+      projectId: "fundguard",
+      storageBucket: "fundguard.appspot.com",
+      messagingSenderId: "324560580067",
+      appId: "1:324560580067:web:f19ff1c1ec816c737d04d6"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script defer src="auth.js"></script>
+
+  <style>
+    .user-info {
+      font-weight: bold;
+      margin-left: 20px;
+      color: white;
+    }
+    .logout-btn {
+      margin-left: 20px;
+      background-color: #fff;
+      color: #ff4b2b;
+      font-weight: bold;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logout-btn:hover {
+      background-color: #ffe6e6;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        document.getElementById("welcomeUser").textContent = "Welcome, " + (user.displayName || user.email);
+      }
+    });
+  </script>
 
-  <!-- Header Section -->
   <header>
     <h1>FundGuard</h1>
     <nav>
@@ -17,49 +66,46 @@
         <li><a href="question.html">Questionnaire</a></li>
       </ul>
     </nav>
+    <div class="header-right">
+      <span class="user-info" id="welcomeUser"></span>
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </div>
   </header>
 
-  <!-- About Us Content -->
-  <section class="did-you-know">
+  <!-- This is our about us section -->
+  <section class="funfacts">
     <h2>About Us</h2>
-    <div class="bubble-container">
-      
-      <div class="bubble-item left">
-        <div class="bubble">
+    <div class="bc-container">
+      <div class="bc-item left">
+        <div class="backgr">
           💡 <strong>Our Mission:</strong> We believe every American deserves financial peace of mind. Our mission is to empower individuals and families to build strong emergency funds that support their well-being in times of need.
         </div>
-        <img src="Jack Headshot.png" class="bubble-img">
+        <img src="Jack Headshot.png" class="bc-img">
       </div>
-
-      <div class="bubble-item right">
-        <div class="bubble">
+      <div class="bc-item right">
+        <div class="backgr">
           🚀 This tool was built during a Hackathon with one goal in mind: to help people take the first step toward financial security.
         </div>
-        <img src="Jude Headshot.png" class="bubble-img">
+        <img src="Jude Headshot.png" class="bc-img">
       </div>
-
-      <div class="bubble-item left">
-        <div class="bubble">
+      <div class="bc-item left">
+        <div class="backgr">
           👥 We’re a team of students and developers who care about making a real difference. This is just the beginning.
         </div>
-        <img src="Rachel Headshot.png" class="bubble-img">
+        <img src="Rachel Headshot.png" class="bc-img">
       </div>
-
-      <div class="bubble-item right">
-        <div class="bubble">
-          📸 These pictures are the members of the Fundguard team — passionate, driven, and ready to make a difference.
+      <div class="bc-item right">
+        <div class="backgr">
+          📸 These pictures are the members of the FundGuard team — passionate, driven, and ready to make a difference.
         </div>
-        <img src="William Headshot.png" class="bubble-img">
+        <img src="William Headshot.png" class="bc-img">
       </div>
-
     </div>
   </section>
 
-  <!-- Call-to-Action -->
   <section class="cta">
     <p>Ready to start building your emergency fund?</p>
     <a href="question.html" class="cta-button">Take the Questionnaire</a>
   </section>
-
 </body>
 </html>

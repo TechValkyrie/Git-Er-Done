@@ -1,4 +1,4 @@
-/* General Styles */
+
 body {
     font-family: 'Arial', sans-serif, 'Segoe UI', Tahoma, Geneva, Verdana;
     margin: 0;
@@ -11,7 +11,7 @@ body {
     text-align: center;
 }
 
-/* Header Styles */
+/* headers/navbar */
 header {
     background: linear-gradient(to right, #ff416c, #ff4b2b);
     padding: 20px;
@@ -29,8 +29,8 @@ header h1 {
 }
 
 .logo-img {
-    width: 30px; 
-    height: 30px;
+    width: auto; 
+    height: 50px;
     margin-left: 10px; 
 }
 
@@ -61,25 +61,25 @@ nav ul li a:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Did You Know Section */
-.did-you-know {
+/* Affects FunFact stuff */
+.funfacts {
     margin: 50px 0;
 }
 
-.did-you-know h2 {
+.funfacts h2 {
     font-size: 28px;
     color: #ff4b2b;
     margin-bottom: 20px;
 }
 
-/* Styling for the Fun Fact Bubbles and Images */
-.bubble-container {
+/* anything with bc has to do with the background and animation with the funfacts */
+.bc-container {
     max-width: 800px;
     margin: 0 auto;
     display: block;
 }
 
-.bubble-item {
+.bc-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
@@ -87,15 +87,15 @@ nav ul li a:hover {
     animation: fadeIn 1s forwards;
 }
 
-.bubble-item.left {
+.bc-item.left {
     flex-direction: row;
 }
 
-.bubble-item.right {
+.bc-item.right {
     flex-direction: row-reverse;
 }
 
-.bubble {
+.backgr {
     background-color: #ff6b6b;
     color: white;
     padding: 15px;
@@ -107,13 +107,13 @@ nav ul li a:hover {
     margin-right: 20px;
 }
 
-.bubble-img {
+.bc-img {
     max-width: 150px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Animation for scrolling effect */
+/* Scrolling :))))) */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -123,12 +123,10 @@ nav ul li a:hover {
     }
 }
 
-/* Fun Fact Bubbles Hover Effect */
-.bubble:hover {
+.backgr:hover {
     transform: scale(1.05);
 }
 
-/* Call-to-Action Section */
 .cta {
     margin: 40px 0;
     font-size: 20px;
