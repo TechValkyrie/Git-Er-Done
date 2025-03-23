@@ -250,12 +250,11 @@
             `;
             
             renderChart(rent, food, transport, other, income);
-            prevBtn.display = false
-            nextBtn.display = false
         }
 
         function renderChart(rent, food, transport, other, income) {
             const ctx = document.getElementById("expenseChart").getContext("2d");
+            
             new Chart(ctx, {
                 type: "bar",
                 data: {
