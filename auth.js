@@ -1,6 +1,6 @@
 // auth.js
 
-function logoutUser() {
+function logout() {
     firebase.auth().signOut().then(() => {
       window.location.href = "login.html?logout=1";
     });
