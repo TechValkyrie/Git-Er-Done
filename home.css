@@ -72,14 +72,14 @@ nav ul li a:hover {
     margin-bottom: 20px;
 }
 
-/* anything with bubble has to do with the background and animation with the funfacts */
-.bubble-container {
+/* anything with bc has to do with the background and animation with the funfacts */
+.bc-container {
     max-width: 800px;
     margin: 0 auto;
     display: block;
 }
 
-.bubble-item {
+.bc-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
@@ -87,15 +87,15 @@ nav ul li a:hover {
     animation: fadeIn 1s forwards;
 }
 
-.bubble-item.left {
+.bc-item.left {
     flex-direction: row;
 }
 
-.bubble-item.right {
+.bc-item.right {
     flex-direction: row-reverse;
 }
 
-.bubble {
+.backgr {
     background-color: #ff6b6b;
     color: white;
     padding: 15px;
@@ -107,7 +107,7 @@ nav ul li a:hover {
     margin-right: 20px;
 }
 
-.bubble-img {
+.bc-img {
     max-width: 150px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -123,7 +123,7 @@ nav ul li a:hover {
     }
 }
 
-.bubble:hover {
+.backgr:hover {
     transform: scale(1.05);
 }
 
